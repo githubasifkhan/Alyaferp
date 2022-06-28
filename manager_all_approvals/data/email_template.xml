@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="email_template_edi_sale_template" model="mail.template">
+            <field name="name">Alwathba Quotation: Send by email</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="subject">Alwathba Quotation - (Ref {{ object.name or 'n/a' }})</field>
+            <field name="email_from">{{ (object.user_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="body_html" type="html">
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        <t t-set="doc_name" t-value="'quotation' if object.state in ('draft', 'sent') else 'order'"/>
+        Hello,
+        <br/><br/>
+        Your
+        <t t-if="ctx.get('proforma')">
+            Pro forma invoice for <t t-out="doc_name or ''">quotation</t> <strong t-out="object.name or ''">S00052</strong>
+            <t t-if="object.origin">
+                (with reference: <t t-out="object.origin or ''"></t> )
+            </t>
+            amounting in <strong t-out="format_amount(object.amount_total, object.pricelist_id.currency_id) or ''">$ 10.00</strong> is available.
+        </t>
+        <t t-else="">
+            <t t-out="doc_name or ''">quotation</t> <strong t-out="object.name or ''"></strong>
+            <t t-if="object.origin">
+                (with reference: <t t-out="object.origin or ''">S00052</t> )
+            </t>
+            amounting in <strong t-out="format_amount(object.amount_total, object.pricelist_id.currency_id) or ''">$ 10.00</strong> is ready for review.
+        </t>
+        <br/><br/>
+        Do not hesitate to contact us if you have any questions.
+        <br/>
+                    </p>
+                </div>
+            </field>
+            <field name="report_template" ref="manager_all_approvals.sale_report"/>
+            <field name="report_name">Al Wathba Quotation - (Ref {{ object.name or 'n/a' }}).replace('/','_')}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+
+    <record id="email_template_edi_purchase_template" model="mail.template">
+            <field name="name">Alwathba Quotation: Send by email</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="subject">Alwathba Quotation - (Ref {{ object.name or 'n/a' }})</field>
+            <field name="email_from">{{ (object.user_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="body_html" type="html">
+               <div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Dear <t t-out="object.partner_id.name or ''">Brandon Freeman</t>
+        <t t-if="object.partner_id.parent_id">
+            (<t t-out="object.partner_id.parent_id.name or ''">Azure Interior</t>)
+        </t>
+        <br/><br/>
+        Here is in attachment a purchase order <strong t-out="object.name or ''">P00015</strong>
+        <t t-if="object.partner_ref">
+            with reference: <t t-out="object.partner_ref or ''">REF_XXX</t>
+        </t>
+        amounting in <strong t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 10.00</strong>
+        from <t t-out="object.company_id.name or ''">YourCompany</t>.
+        <br/><br/>
+        <t t-if="object.date_planned">
+            The receipt is expected for <strong t-out="format_date(object.date_planned) or ''">05/05/2021</strong>.
+            <br/><br/>
+            Could you please acknowledge the receipt of this order?
+        </t>
+    </p>
+</div>
+            </field>
+            <field name="report_template" ref="manager_all_approvals.purchase_report"/>
+            <field name="report_name">Al Wathba Quotation - (Ref {{ object.name or 'n/a' }}).replace('/','_')}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+
+         <record id="email_template_edi_rfq_template" model="mail.template">
+            <field name="name">Alwathba RFQ: Send by email</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="subject">Alwathba RFQ - (Ref {{ object.name or 'n/a' }})</field>
+            <field name="email_from">{{ (object.user_id.email_formatted or user.email_formatted) }}</field>
+            <field name="partner_to">{{ object.partner_id.id }}</field>
+            <field name="body_html" type="html">
+               <div style="margin: 0px; padding: 0px;">
+    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+        Dear <t t-out="object.partner_id.name or ''">Brandon Freeman</t>
+        <t t-if="object.partner_id.parent_id">
+            (<t t-out="object.partner_id.parent_id.name or ''">Azure Interior</t>)
+        </t>
+        <br/><br/>
+        Here is in attachment a purchase order <strong t-out="object.name or ''">P00015</strong>
+        <t t-if="object.partner_ref">
+            with reference: <t t-out="object.partner_ref or ''">REF_XXX</t>
+        </t>
+
+        <br/><br/>
+        <t t-if="object.date_planned">
+            The receipt is expected for <strong t-out="format_date(object.date_planned) or ''">05/05/2021</strong>.
+            <br/><br/>
+            Could you please acknowledge the receipt of this order?
+        </t>
+    </p>
+</div>
+            </field>
+            <field name="report_template" ref="manager_all_approvals.rfq_report"/>
+            <field name="report_name">Alwathba RFQ - (Ref {{ object.name or 'n/a' }}).replace('/','_')}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+
+    </data>
+</odoo>

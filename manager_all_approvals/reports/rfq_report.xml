@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="rfq_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <div class="text-center" style="padding-top:50px;">
+                            <h3 style="font-family: Roboto, sans-serif;">
+                                <span>Request for Quotation</span>
+
+                            </h3>
+                        </div>
+                        <br/><br/>
+                        <div>
+                            <div class="row">
+                                <div style="margin-left:2%;">
+                                    <span style="font-family: Roboto, sans-serif;font-weight:bold;font-size:16px;">Reference: </span><span style="font-family: Roboto, sans-serif;font-size:16px;" t-field="doc.name"/><br/><br/>
+                                    <span style="font-family: Roboto, sans-serif;font-weight:bold;font-size:16px;">Vendor: </span><span style="font-family: Roboto, sans-serif;font-size:16px;" t-field="doc.partner_id.name"/>
+
+                                </div>
+                                <div style="margin-left:45%;">
+                                    <span style="font-family: Roboto, sans-serif;font-weight:bold;font-size:16px;">Date: </span><span style="font-family: Roboto, sans-serif;font-size:16px;" t-field="doc.date_order"/><br/><br/>
+                                    <span style="font-family: Roboto, sans-serif;font-weight:bold;font-size:16px;">Order Ref: </span><span style="font-family: Roboto, sans-serif;font-size:16px;" t-field="doc.partner_ref"/>
+
+                                </div>
+                            </div>
+                        </div><br/><br/>
+                        <table class="table table-bordered">
+                            <thead class="text-center" style="background-color:#eeeeee; font-family: Roboto, sans-serif;font-size:16px; color:black;font-weight:bold;">
+                                <th>No.#</th>
+                                <th>Product Name</th>
+                                <th>Unit</th>
+                                <th>Quantity</th>
+                            </thead>
+                            <t t-set="current_subtotal" t-value="0"/>
+                            <t t-set="seq" t-value="1"/>
+                            <tbody class="text-center" style="font-size:16px;font-family: Roboto, sans-serif;">
+                                <tr t-foreach="doc.order_line" t-as="line">
+
+                                    <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                    <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+                                    <td>
+                                        <span t-esc="seq"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.product_uom.name"/>
+                                    </td>
+                                     <td>
+                                        <span t-field="line.product_qty"/>
+                                    </td>
+                                    <!--<td class="text-right">
+                                        <span t-field="line.price_unit"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-field="line.price_subtotal"/>
+                                    </td>
+-->
+                                    <t t-set="seq" t-value="seq+1"/>
+                                </tr>
+
+                              <!--  <tr class="is-subtotal text-right">
+                                    <td colspan="99" id="subtotal">
+                                        <strong class="mr16">Subtotal : </strong>
+                                        <span
+                                                t-esc="current_subtotal"
+                                                t-options='{"widget": "monetary", "display_currency": doc.currency_id}'
+                                        />
+                                    </td>
+                                </tr>-->
+                            </tbody>
+                        </table>
+                        <br/><br/>
+
+                        <!--<table class="mt32 mb64" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:separate;">
+
+                            <tr>
+
+
+                            <td style="border-bottom:1px solid black;padding-bottom:3px;width:30%;padding-left:15px;">
+                               &#160;
+                            </td>
+                            <td style="width:30%;">
+                                 &#160;
+                            </td>
+
+                            <td style="border-bottom:1px solid black;padding-bottom:3px;width:30%;">
+                                 &#160;
+                            </td>
+
+
+
+                        </tr>
+                         <tr>
+                           <td><span style="font-size:16px;padding-left:40px;"><b>Purchase Manager</b></span></td>
+                            <td style="width:30%;">
+                                 &#160;
+                            </td>
+                            <td>
+                                <span style="font-size:16px;padding-left:40px;"><b>Finance Manager</b> </span>
+                            </td>
+                        </tr>
+
+
+                        </table>
+-->
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

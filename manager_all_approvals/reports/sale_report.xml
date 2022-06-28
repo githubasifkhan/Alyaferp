@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <report id="sale_report"
+            model="sale.order"
+            string="Sale Order Report"
+            report_type="qweb-pdf"
+            name="manager_all_approvals.sale_template"
+            file="manager_all_approvals.sale_template"
+    />
+
+
+
+     <report id="purchase_report"
+            model="purchase.order"
+            string="Purchase Order Report"
+            report_type="qweb-pdf"
+            name="manager_all_approvals.purchase_template"
+            file="manager_all_approvals.purchase_template"
+    />
+
+     <report id="rfq_report"
+            model="purchase.order"
+            string="RFQ Report"
+            report_type="qweb-pdf"
+            name="manager_all_approvals.rfq_template"
+            file="manager_all_approvals.rfq_template"
+    />
+
+</odoo>

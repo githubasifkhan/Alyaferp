@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="internal_picking_form_view" model="ir.ui.view">
+            <field name="name">internal.picking.form.view</field>
+            <field name="model">internal.picking</field>
+            <field name="arch" type="xml">
+                <form string="Internal Picking">
+                <header>
+                    <button name="confirm_requisition" string="Confirm" type="object" class="btn-primary" attrs="{'invisible': [('state', 'in', ['received','internal_picking','cancel', 'io_created'])]}" groups="base.group_user"/>
+                    <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('state', 'in', ['received','cancel', 'io_created'])]}" groups="base.group_user"/>
+<!--                     <button name="department_approve" type="object" string="Department Approve" attrs="{'invisible': [('state', 'in', ['new','ir_approve','po_created','received','cancel', 'io_created'])]}"/>-->
+                     <button name="product_available" type="object" string="Check Availability" attrs="{'invisible': [('state', 'in', ['new','received','cancel', 'io_created'])]}"/>
+                     <!-- <button name="action_reject" type="object" string="Reject" attrs="{'invisible': [('state', 'in', ['new','department_approval','po_created','received','cancel', 'io_created'])]}"/>
+                       <button name="action_approve" type="object" string="Approve" attrs="{'invisible': [('state', 'in', ['new','department_approval','po_created','received','cancel','approved', 'io_created'])]}"/> -->
+<!--                   <button name="create_purchase_requisition" type="object" string="Create Purchase Tender" attrs="{'invisible': [('state', 'in', ['new','department_approval','po_created','received','cancel','io_created'])]}"/>&lt;!&ndash;&ndash;&gt;-->
+                     <button name="create_picking" type="object" string="Create Internal Picking" states="internal_picking" />
+                     <button name="action_received" type="object" string="Received" invisible="0" states="io_created"/>
+                    <button name="action_reset_draft" type="object" string="Reset To Draft" states="io_created"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,internal_picking,io_created"/>
+                </header>
+                <sheet>
+
+
+                    <div class="oe_button_box" name="button_box">
+                           <button type="object" name="internal_picking_button" class="oe_stat_button" icon="fa-truck" invisible="0" >
+                            <field name="internal_picking_count" widget="statinfo" string="Delivery Order" />
+                        </button>
+
+                    </div>
+                    <div class="oe_title oe_left">
+                         <h1>
+                            <field name="sequence"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id" options="{'no_create':True}" attrs="{'readonly': [('state', 'not in', ['new'])]}"/>
+<!--                             <field name="analytic_id" attrs="{'readonly': [('state', 'in', ['cancel'])]}"/>-->
+                            <!-- <field name="analytic_id" attrs="{'readonly': [('state', 'in', ['cancel'])]}"/> -->
+                            <!-- <field name="task_id" attrs="{'readonly': [('state', 'in', ['cancel'])]}" domain="[('project_id.analytic_account_id','=',analytic_id)]"/> -->
+                        </group>
+                        <group>
+                            <field name="requisition_date" attrs="{'readonly': [('state', 'not in', ['new'])]}"/>
+                            <field name="prepared_by" invisible="1" />
+                            <!-- <field name="received_date" attrs="{'readonly': [('state', 'in', ['cancel'])]}"/> -->
+                            <field name="requisition_deadline_date" attrs="{'readonly': [('state', 'not in', ['new'])]}"/>
+<!--                             <field name="company_id" attrs="{'readonly': [('state', 'in', ['cancel'])]}"/> -->
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Requisitions Lines">
+                            <field name="pickings_line_ids" widget="one2many_list" attrs="{'readonly': [('state', 'not in', ['new'])]}">
+                                <tree string="Requisitions Lines" editable="bottom">
+                                    <field name="product_id" options="{'no_create':True}" domain="[('type','=','product'),('approve_state', '=', 'confirmed')]" />
+                                    <field name="description" />
+                                    <field name="qty" />
+                                    <field name="available_qty" readonly="1"/>
+                                    <field name="forcasted_qty" invisible="1" readonly="1"/>
+                                    <field name="uom_id" />
+                                </tree>
+                            </field>
+                        </page>
+                         <page string="Picking Details" invisible="0">
+                            <group>
+                                <group>
+                                   <field name="picking_type_id" attrs="{'readonly': [('state', 'in', ['cancel'])]}"/>
+                                </group>
+                                <group>
+                                    <field name="source_location_id" attrs="{'readonly': [('state', 'in', ['cancel'])]}"/>
+                                    <field name="destination_location_id" attrs="{'readonly': [('state', 'in', ['cancel'])]}"/>
+                                </group>
+                            </group>
+                        </page>
+                         <page string="Other Information">
+                            <group>
+                                <group>
+                                    <field name="confirmed_by_id" readonly="1"/>
+<!--                                    <field name="department_manager_id" readonly="1"/>-->
+                                    <field name="approved_by_id" readonly="1"/>
+                                    <field name="rejected_by" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="confirmed_date"/>
+<!--                                    <field name="department_approval_date"/>-->
+                                    <field name="approved_date"/>
+                                    <field name="rejected_date"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    <label for="reason_for_requisition"/>
+                    <field name="reason_for_requisition"/>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="internal_picking_tree_view" model="ir.ui.view">
+            <field name="name">internal.picking.tree.view</field>
+            <field name="model">internal.picking</field>
+            <field name="arch" type="xml">
+                <tree string="Internal Picking">
+                    <field name="sequence" string="Number"/>
+                    <field name="employee_id"/>
+<!--                    <field name="analytic_id" invisible="1"/>-->
+                    <field name="requisition_date"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_internal_picking" model="ir.actions.act_window">
+            <field name="name">Internal Picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">internal.picking</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <!-- <record id="requisition_line_tree_view_new" model="ir.ui.view">
+            <field name="name">requisition.line.tree.view.new</field>
+            <field name="model">material.requisition.line</field>
+            <field name="arch" type="xml">
+                <tree string="Requisition Line">
+                    <field name="requisition_action"/>
+                    <field name="product_id"/>
+                    <field name="description"/>
+                    <field name="qty"/>
+                    <field name="uom_id"/>
+                    <field name="vendor_id" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record> -->
+        <menuitem id="main_menu_interal_picking"
+            name="Internal Picking"
+            web_icon="ag_internal_picking,static/description/mat.png"
+            sequence="130"
+             />
+
+
+
+
+        <menuitem id="menu_internal_picking_new"
+          name="Picking"
+          parent="main_menu_interal_picking"
+          sequence="10"  groups="base.group_no_one"/>
+
+        <menuitem id="menu_sub_internal_picking_new"
+          name="Internal Picking"
+          parent="menu_internal_picking_new"
+          action="action_internal_picking"
+          sequence="1"  groups="base.group_no_one"/>
+
+
+         <record id="stock_picking_form_inherit" model="ir.ui.view">
+            <field name="name">stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+                <field name="picking_type_id" position="after">
+                        <field name="picking_mat_picking_id" string="Internal Requisition"/>
+                </field>
+              <!--  <xpath expr="//notebook/page/field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="after">
+                    <field name="available_qty" readonly="1"/>
+                </xpath>
+-->
+            </field>
+        </record>
+
+        <!-- <record id="view_move_picking_form_inherit" model="ir.ui.view">
+            <field name="name">stock.move.form.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_picking_form" />
+            <field name="arch" type="xml">
+            <field name="product_id" position="after">
+                <field name="available_qty"/>
+            </field>
+            </field>
+        </record>
+ -->
+
+    </data>
+</odoo>

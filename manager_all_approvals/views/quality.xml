@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="quality_community_check_form_view" model="ir.ui.view">
+            <field name="name">quality.check.wizard.view</field>
+            <field name="model">quality.check.wizard</field>
+            <field name="inherit_id" ref="quality_ctrl_community.view_quality_check_wizard"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='do_pass'][2]" position="replace">
+                     <button name="do_pass" type="object" class="btn-primary" string="Approve"
+                        attrs="{'invisible': ['|', ('quality_state', '!=', 'none'), ('test_type', '!=', 'passfail')]}" data-hotkey="w"/>
+
+                </xpath>
+                <xpath expr="//button[@name='do_pass'][2]" position="after">
+                    <button name="under_inspection" type="object" class="btn-primary" string="Under Inspection"
+                        attrs="{'invisible': [('quality_state', '!=', 'none')]}" data-hotkey="x"/>
+                </xpath>
+                <xpath expr="//button[@name='do_fail']" position="replace">
+                    <button name="do_fail" type="object" class="btn-primary" string="Reject"
+                        attrs="{'invisible': ['|', ('quality_state', '!=', 'none'), ('test_type', '!=', 'passfail')]}" data-hotkey="x"/>
+                </xpath>
+            </field>
+        </record>
+
+            <record id="quality_check_view_form_inherited" model="ir.ui.view">
+            <field name="name">quality.check.inherit</field>
+            <field name="model">quality.check</field>
+            <field name="inherit_id" ref="quality_ctrl_community.quality_check_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='do_pass'][1]" position="before">
+                     <button name="under_inspection" type="object" class="btn-primary" attrs="{'invisible': [('quality_state', '!=', 'none')]}" string="Under Inspection" data-hotkey="q"/>
+
+                </xpath>
+
+                <xpath expr="//button[@name='do_pass'][1]" position="replace">
+                     <button name="do_pass" type="object" class="btn-primary" attrs="{'invisible': [('quality_state', 'not in', ['none','under'])]}" string="Approve" data-hotkey="q"/>
+
+                </xpath>
+                <xpath expr="//button[@name='do_pass'][2]" position="replace">
+                    <button name="do_pass" type="object" attrs="{'invisible': [('quality_state', '!=', 'fail')]}" groups="quality_community.group_quality_manager" string="Approve" data-hotkey="q"/>
+
+                </xpath>
+                <xpath expr="//button[@name='do_fail'][1]" position="replace">
+                     <button name="do_fail" type="object" class="btn-primary" attrs="{'invisible': [('quality_state', 'not in', ['none','under'])]}" string="Reject" data-hotkey="w"/>
+
+                </xpath>
+                <xpath expr="//button[@name='do_fail'][2]" position="replace">
+                    <button name="do_fail" type="object" attrs="{'invisible': [('quality_state', '!=', 'pass')]}" groups="quality_community.group_quality_manager" string="Reject" data-hotkey="w"/>
+
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+   <!-- <template id="sale_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <div class="text-center" style="padding-top:50px;">
+                            <h3 style="font-family: Roboto, sans-serif;">
+                                <span t-if="doc.state in ['sale']">Sales Order</span>
+                                <span t-if="doc.state not in ['sale']">Sales Quotation</span>
+                            </h3>
+                        </div>
+                        <br/><br/>
+                        <div>
+                            <div class="row">
+                                <div style="margin-left:2%;">
+                                    <span style="font-family: Roboto, sans-serif;font-weight:bold;font-size:16px;">Reference: </span><span style="font-family: Roboto, sans-serif;font-size:16px;" t-field="doc.name"/><br/><br/>
+                                    <span style="font-family: Roboto, sans-serif;font-weight:bold;font-size:16px;">Customer/Dealer: </span><span style="font-family: Roboto, sans-serif;font-size:16px;" t-field="doc.partner_id.name"/>
+                                </div>
+                                <div style="margin-left:40%;">
+                                    <span style="font-family: Roboto, sans-serif;font-weight:bold;font-size:16px;">Date: </span><span style="font-family: Roboto, sans-serif;font-size:16px;" t-field="doc.date_order"/>
+                                </div>
+                            </div>
+                        </div><br/><br/>
+                        <table class="table table-bordered">
+                            <thead class="text-center" style="background-color:#eeeeee; font-family: Roboto, sans-serif;font-size:16px; color:black;font-weight:bold;">
+                                <th>No.#</th>
+                                <th>Product Name</th>
+                                <th>Barcode</th>
+                                <th>Quantity</th>
+                                <th>Weight</th>
+                                <th>Price</th>Sales
+                                <th>Product Picture</th>
+                            </thead>
+                            <t t-set="seq" t-value="1"/>
+                            <tbody class="text-center" style="font-size:16px;font-family: Roboto, sans-serif;">
+                                <tr t-foreach="doc.order_line" t-as="line">
+                                    <td>
+                                        <span t-esc="seq"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.product_id.name"/>
+                                    </td>
+                                     <td>
+                                        <span t-field="line.product_id.barcode"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.product_uom_qty"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.product_id.weight"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.product_id.lst_price"/>
+                                    </td>
+                                    <td>
+                                        <img t-att-src="'data:image/png;base64,%s' % to_text(line.product_id.image_1920)"
+                                             style="width:28%; height:25%"/>
+                                    </td>
+                                    <t t-set="seq" t-value="seq+1"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <div>
+                            <div class="row">
+                                <div style="margin-left:2%;">
+                                    <span style="font-family: Roboto, sans-serif;font-weight:bold;font-size:16px;">Sales Manager: </span><br/>
+                                    <span style="font-family: Roboto, sans-serif;font-size:16px;" t-field="doc.user_id.name"/>
+                                </div>
+                                <div style="margin-left:60%;">
+                                    <span style="font-family: Roboto, sans-serif;font-weight:bold;font-size:16px;">Sign and Stamp: </span>
+                               </div>
+                           </div>
+                       </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+-->
+</odoo>

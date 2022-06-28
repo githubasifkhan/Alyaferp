@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_po_report_account_po_report,account_po_report.account_po_report,model_account_po_report_account_po_report,base.group_user,1,1,1,1

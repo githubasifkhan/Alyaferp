@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="requisition_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <div class="text-center">
+                            <h3>
+                                <strong>Material Requisitions</strong>
+                            </h3>
+                        </div>
+                        <br/>
+                        <div>
+                            <div class="row mt32 mb32">
+                                <div class="col-6">
+                                    <strong>TRN: </strong><span t-field="doc.name"/><br/>
+                                    <strong>Reg/Dept: </strong><span t-field="doc.department_id.name"/>
+                                </div>
+                                <div class="col-6">
+                                    <strong>SR #: </strong><span t-field="doc.name"/><br/>
+                                    <strong>Date: </strong><span t-field="doc.request_date"/>
+                                </div>
+                            </div>
+                        </div>
+                        <table class="table table-bordered">
+                            <thead class="text-center" style="background-color:#eeeeee; font-size:14px; font-weight:600;">
+                                <th>Sr No.</th>
+                                <th>Code</th>
+                                <th>Description</th>
+                                <th>Unit</th>
+                                <th>Qty</th>
+                                <th>Remarks</th>
+                            </thead>
+                            <t t-set="seq" t-value="1"/>
+                            <tbody class="text-center" style="font-size:12px;">
+                                <tr t-foreach="doc.requisition_line_ids" t-as="line">
+                                    <td>
+                                        <span t-esc="seq"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.product_id.barcode"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.product_id.name"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.uom"/>
+                                    </td>
+                                    <td>
+                                        <span t-field="line.qty"/>
+                                    </td>
+                                    <td>
+<!--                                        <span t-field="line.product_id.lst_price"/>-->
+                                    </td>
+                                    <t t-set="seq" t-value="seq+1"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <br/>
+                        <div style="width: 450px; height: 100px; display: inline-block;">
+                            <div class="row mt32 mb32">
+                                <div class="col-8">
+                                    <strong>Signature:</strong>
+                                </div>
+<!--                                <div class="col-8">-->
+<!--                                    <strong>General Manager:</strong>-->
+<!--                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

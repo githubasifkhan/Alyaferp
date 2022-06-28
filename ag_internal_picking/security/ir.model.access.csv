@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+internal_picking_user,internal_picking_name,ag_internal_picking.model_internal_picking,,1,1,1,1
+internal_picking_line_user,internal.picking.line,ag_internal_picking.model_internal_picking_line,,1,1,1,1
+

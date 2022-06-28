@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data>
+    <record id="internal_picking_seq_new" model="ir.sequence">
+            <field name="name">Internal Picking Sequence</field>
+            <field name="code">internal.picking</field>
+            <field name="prefix">IP/00</field>
+            <field name="padding">3</field>
+        </record>
+    </data>
+</odoo>

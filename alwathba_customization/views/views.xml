@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_sale_order_form_alwathba" model="ir.ui.view">
+            <field name="name">sale.order.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='pricelist_id']" position="replace">
+                    <field name="pricelist_id"/>
+                </xpath>
+                <xpath expr="//header/button[@name='action_quotation_send']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_purchase_order_form_alwathba" model="ir.ui.view">
+            <field name="name">purchase.order.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='action_rfq_send']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="stock_picking_view_form_inherit_quality_alwathba" model="ir.ui.view">
+            <field name="name">stock.picking.view.form</field>
+            <field name="model">stock.picking</field>
+            <field name="groups_id" eval="[(4, ref('quality_community.group_quality_user'))]"/>
+            <field name="inherit_id" ref="quality_ctrl_community.stock_picking_view_form_inherit_quality"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_validate'][hasclass('oe_highlight')]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_validate'][hasclass('o_btn_validate')]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_stock_picking_form_alwathba" model="ir.ui.view">
+            <field name="name">stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="sale_requisition_report.view_stock_picking_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='button_validate'][1]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//header/button[@name='button_validate'][2]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_validate']" position="replace">
+                    <button name="button_validate" attrs="{'invisible': ['|','|',('picking_type_code', 'not in',('incoming','outgoing')),('state', 'not in',('receive','assigned','waiting','confirmed')),('show_validate', '=', False),('state', 'in', ('waiting','confirmed')),('quality_check_todo', '=', True)]}" string="Validate" type="object" class="oe_highlight" groups="stock.group_stock_user" data-hotkey="v"/>
+                </xpath>
+            </field>        
+        </record>
+
+        <record id="view_stock_quant_form_alwathba" model="ir.ui.view">
+            <field name="name">stock.quant.form</field>
+            <field name="model">stock.quant</field>
+            <field name="inherit_id" ref="stock.view_stock_quant_tree_editable"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='available_quantity']" position="after">
+                    <field name="reserved_quantity" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+
+      <!--  <record id="view_material_requisition_form_alwathba" model="ir.ui.view">
+            <field name="name">material.requisition.form</field>
+            <field name="model">material.requisition</field>
+            <field name="inherit_id" ref="AG_material_requisition.material_requisition_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_cancel']" position="replace">
+                    <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('state', 'in', ['po_created','received','cancel', 'io_created'])]}" groups="base.group_user" />
+                </xpath>
+            </field>
+        </record>-->
+
+        <report id="manager_all_approvals.sale_report"
+            model="sale.order"
+            string="Sale Order Report"
+            report_type="qweb-pdf"
+            name="manager_all_approvals.sale_template"
+            file="manager_all_approvals.sale_template"
+            menu="False"
+        />
+        
+        <delete model="ir.ui.menu" id="material_purchase_requisitions.menu_purchase_requisition" />
+
+        <delete model="ir.ui.menu" id="material_purchase_requisitions.menu_action_purchase_requisition" />
+
+        <record id="purchase.action_report_purchase_order" model="ir.actions.report">
+            <field name="binding_model_id" eval="False"/>
+        </record>
+        <record id="purchase.report_purchase_quotation" model="ir.actions.report">
+            <field name="binding_model_id" eval="False"/>
+        </record>
+
+
+    </data>
+</odoo>

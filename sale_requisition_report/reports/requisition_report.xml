@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <report id="requisition_report"
+            model="material.purchase.requisition"
+            string="Requisition Report"
+            report_type="qweb-pdf"
+            name="sale_requisition_report.requisition_template"
+            file="sale_requisition_report.requisition_template"
+    />
+
+</odoo>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="product_template_mail_alwathba" model="mail.template">
+        <field name="name">Product Approval Notification</field>
+        <field name="model_id" ref="product.model_product_template"/>
+        <field name="email_from">{{ (not object.company_id and object.company_id.email) }}</field>
+        <!-- <field name="email_to">{{ object.req_email }}</field> -->
+        <field name="email_cc">{{ (not object.company_id and object.company_id.email) }}</field>
+        <field name="subject">{{ (object.name) }} Approval</field>
+        <field name="body_html" type="html"> 
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    Product Waiting for approval
+                    <br /><br />
+                    Product details:
+                    <br />
+                    <t t-if="object.name">
+                        Product Name: <strong t-out="object.name"></strong>
+                    </t>
+                    <t t-else="">
+                        Product Name: 
+                    </t>
+                </p>
+            </div>
+        </field>
+    </record>
+
+    <record id="manager_all_approvals.email_template_edi_sale_template" model="mail.template">
+        <field name="name">Alwathba Quotation: Send by email</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="subject">Alwathba Quotation - (Ref {{ object.name or 'n/a' }})</field>
+        <field name="email_from">{{ (object.user_id.email_formatted or user.email_formatted) }}</field>
+        <field name="partner_to">{{ object.partner_id.id }}</field>
+        <field name="body_html" type="html">
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    <t t-set="doc_name" t-value="'quotation' if object.state in ('draft', 'sent') else 'order'"/>
+                    Hello,
+                    <br/><br/>
+                    Your
+                    <t t-if="ctx.get('proforma')">
+                        Pro forma invoice for <t t-out="doc_name or ''">quotation</t> <strong t-out="object.name or ''">S00052</strong>
+                        <t t-if="object.origin">
+                            (with reference: <t t-out="object.origin or ''"></t> )
+                        </t>
+                        amounting in <strong t-out="format_amount(object.amount_total, object.pricelist_id.currency_id) or ''">$ 10.00</strong> is available.
+                    </t>
+                    <t t-else="">
+                        <t t-out="doc_name or ''">quotation</t> <strong t-out="object.name or ''"></strong>
+                        <t t-if="object.origin">
+                            (with reference: <t t-out="object.origin or ''">S00052</t> )
+                        </t>
+                        amounting in <strong t-out="format_amount(object.amount_total, object.pricelist_id.currency_id) or ''">$ 10.00</strong> is ready for review.
+                    </t>
+                    <br/><br/>
+                    Do not hesitate to contact us if you have any questions.
+                    <br/>
+                </p>
+            </div>
+        </field>
+        <field name="report_template" ref="sale_requisition_report.sale_report"/>
+        <field name="report_name">Al Wathba Quotation - (Ref {{ object.name or 'n/a' }}).replace('/','_')}</field>
+        <field name="lang">${object.partner_id.lang}</field>
+        <field name="auto_delete" eval="True"/>
+    </record>
+
+    <record id="requisition_review_template_mail_alwathba" model="mail.template">
+        <field name="name">Requisition Review Notification</field>
+        <field name="model_id" ref="AG_material_requisition.model_material_requisition"/>
+        <field name="email_from">{{ (not object.company_id and object.company_id.email) }}</field>
+        <!-- <field name="email_to">{{ object.req_email }}</field> -->
+        <field name="email_cc">{{ (not object.company_id and object.company_id.email) }}</field>
+        <field name="subject">{{ (object.sequence) }} Review</field>
+        <field name="body_html" type="html"> 
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    Requisition Waiting for Review
+                    <br /><br />
+                    Requisition details:
+                    <br />
+                    <t t-if="object.sequence">
+                        Requisition Name: <strong t-out="object.sequence"></strong>
+                    </t>
+                    <t t-else="">
+                        Requisition Name: 
+                    </t>
+                </p>
+            </div>
+        </field>
+    </record>
+
+    <record id="requisition_approval_template_mail_alwathba" model="mail.template">
+        <field name="name">Requisition Approval Notification</field>
+        <field name="model_id" ref="AG_material_requisition.model_material_requisition"/>
+        <field name="email_from">{{ (not object.company_id and object.company_id.email) }}</field>
+        <!-- <field name="email_to">{{ object.req_email }}</field> -->
+        <field name="email_cc">{{ (not object.company_id and object.company_id.email) }}</field>
+        <field name="subject">{{ (object.sequence) }} Approval</field>
+        <field name="body_html" type="html"> 
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    Requisition Waiting for approval
+                    <br /><br />
+                    Requisition details:
+                    <br />
+                    <t t-if="object.sequence">
+                        Requisition Name: <strong t-out="object.sequence"></strong>
+                    </t>
+                    <t t-else="">
+                        Requisition Name: 
+                    </t>
+                </p>
+            </div>
+        </field>
+    </record>
+
+    <record id="purchase_review_template_mail_alwathba" model="mail.template">
+        <field name="name">Purchase Review Notification</field>
+        <field name="model_id" ref="purchase.model_purchase_order"/>
+        <field name="email_from">{{ (not object.company_id and object.company_id.email) }}</field>
+        <!-- <field name="email_to">{{ object.req_email }}</field> -->
+        <field name="email_cc">{{ (not object.company_id and object.company_id.email) }}</field>
+        <field name="subject">{{ (object.name) }} Review</field>
+        <field name="body_html" type="html"> 
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    Purchase Waiting for review
+                    <br /><br />
+                    Purchase details:
+                    <br />
+                    <t t-if="object.name">
+                        Purchase Name: <strong t-out="object.name"></strong>
+                    </t>
+                    <t t-else="">
+                        Purchase Name: 
+                    </t>
+                </p>
+            </div>
+        </field>
+    </record>
+
+    <record id="purchase_approve_template_mail_alwathba" model="mail.template">
+        <field name="name">Purchase Approve Notification</field>
+        <field name="model_id" ref="purchase.model_purchase_order"/>
+        <field name="email_from">{{ (not object.company_id and object.company_id.email) }}</field>
+        <!-- <field name="email_to">{{ object.req_email }}</field> -->
+        <field name="email_cc">{{ (not object.company_id and object.company_id.email) }}</field>
+        <field name="subject">{{ (object.name) }} Approve</field>
+        <field name="body_html" type="html"> 
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    Purchase Waiting for approval
+                    <br /><br />
+                    Purchase details:
+                    <br />
+                    <t t-if="object.name">
+                        Purchase Name: <strong t-out="object.name"></strong>
+                    </t>
+                    <t t-else="">
+                        Purchase Name: 
+                    </t>
+                </p>
+            </div>
+        </field>
+    </record>
+
+    <record id="sale_review_template_mail_alwathba" model="mail.template">
+        <field name="name">Sale Review Notification</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="email_from">{{ (not object.company_id and object.company_id.email) }}</field>
+        <!-- <field name="email_to">{{ object.req_email }}</field> -->
+        <field name="email_cc">{{ (not object.company_id and object.company_id.email) }}</field>
+        <field name="subject">{{ (object.name) }} Review</field>
+        <field name="body_html" type="html"> 
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    Sale Waiting for Review
+                    <br /><br />
+                    Sale details:
+                    <br />
+                    <t t-if="object.name">
+                        Sale Name: <strong t-out="object.name"></strong>
+                    </t>
+                    <t t-else="">
+                        Sale Name: 
+                    </t>
+                </p>
+            </div>
+        </field>
+    </record>
+
+    <record id="sale_approve_template_mail_alwathba" model="mail.template">
+        <field name="name">Sale Approve Notification</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="email_from">{{ (not object.company_id and object.company_id.email) }}</field>
+        <!-- <field name="email_to">{{ object.req_email }}</field> -->
+        <field name="email_cc">{{ (not object.company_id and object.company_id.email) }}</field>
+        <field name="subject">{{ (object.name) }} Approve</field>
+        <field name="body_html" type="html"> 
+            <div style="margin: 0px; padding: 0px;">
+                <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                    Sale Waiting for Approve
+                    <br /><br />
+                    Sale details:
+                    <br />
+                    <t t-if="object.name">
+                        Sale Name: <strong t-out="object.name"></strong>
+                    </t>
+                    <t t-else="">
+                        Sale Name: 
+                    </t>
+                </p>
+            </div>
+        </field>
+    </record>
+</odoo>

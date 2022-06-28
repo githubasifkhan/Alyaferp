@@ -1,0 +1,9 @@
+<odoo>
+    <record id="group_security_gaurd" model="res.groups">
+        <field name="name">Security Gaurd</field>
+    </record>
+<!--    <record id="group_second_approver" model="res.groups">-->
+<!--        <field name="name">Second Approve Manager</field>-->
+<!--    </record>-->
+
+</odoo>
